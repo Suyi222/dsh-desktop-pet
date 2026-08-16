@@ -1,0 +1,342 @@
+/* Desktop-pet widget styles. Brand artwork (the whale mark and the sea)
+ * keeps literal colors; chrome uses only structural values. */
+
+.root {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483000;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+.card {
+  position: relative;
+  box-sizing: border-box;
+  width: 112px;
+  height: 164px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.stage {
+  position: relative;
+  width: 112px;
+  height: 104px;
+}
+
+.shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  transform: translateX(-50%);
+  width: 62px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0) 70%);
+  z-index: 0;
+  animation: petShadow 2.8s ease-in-out infinite;
+}
+
+.whale {
+  position: absolute;
+  left: 18px;
+  bottom: 6px;
+  width: 76px;
+  height: 65px;
+  will-change: transform;
+  z-index: 1;
+}
+
+.body {
+  display: block;
+  width: 76px;
+  height: 65px;
+  filter: drop-shadow(0 8px 14px rgba(77, 107, 254, 0.28));
+  transition: filter 0.5s ease;
+}
+
+.root[data-phase='thinking'] .body {
+  filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.45)) drop-shadow(0 8px 14px rgba(77, 107, 254, 0.28));
+}
+
+.root[data-phase='working'] .body {
+  filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.5)) drop-shadow(0 8px 14px rgba(77, 107, 254, 0.28));
+}
+
+.root[data-phase='error'] .body {
+  filter: drop-shadow(0 0 16px rgba(239, 68, 68, 0.5)) drop-shadow(0 8px 14px rgba(77, 107, 254, 0.28));
+}
+
+.sea {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 112px;
+  height: 104px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sea svg {
+  display: block;
+  width: 112px;
+  height: 104px;
+}
+
+.seaWave {
+  animation: petWave 3s linear infinite;
+}
+
+.balText {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.fx {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 6px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 6;
+}
+
+.fxDot {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(147, 197, 253, 0.95);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.fxRing {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 34px;
+  height: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.zzz,
+.alert {
+  display: none;
+}
+
+.zzz {
+  position: absolute;
+  right: 24px;
+  top: 20px;
+  font-size: 13px;
+  opacity: 0;
+  z-index: 5;
+}
+
+.root[data-phase='idle'] .zzz {
+  display: block;
+  animation: petZzz 2.2s ease-in-out infinite;
+}
+
+.alert {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  z-index: 5;
+}
+
+.root[data-phase='error'] .alert {
+  display: block;
+  animation: petAlert 1s ease-in-out infinite;
+}
+
+.bubbleWrap {
+  position: absolute;
+  top: 115px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.bubble {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  background: rgba(147, 197, 253, 0.42);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 0;
+  color: #173a7a;
+  font-size: 11.5px;
+  line-height: 1.2;
+  padding: 5px 12px;
+  border-radius: 999px;
+  max-width: 230px;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.18);
+  animation: petPop 0.18s ease-out;
+}
+
+.statusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+  background: #94a3b8;
+}
+
+.root[data-phase='idle'] .statusDot {
+  background: #34d399;
+}
+
+.root[data-phase='thinking'] .statusDot {
+  background: #fbbf24;
+}
+
+.root[data-phase='working'] .statusDot {
+  background: #60a5fa;
+}
+
+.root[data-phase='error'] .statusDot {
+  background: #f87171;
+}
+
+.bubbleText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #173a7a;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.bubbleSep {
+  color: #173a7a;
+  opacity: 0.6;
+}
+
+.heart {
+  position: absolute;
+  left: 44%;
+  bottom: 50px;
+  font-size: 18px;
+  pointer-events: none;
+  z-index: 7;
+  animation: petHeart 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.min {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 8;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+  font-size: 0;
+}
+
+.min::before,
+.min::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 1.2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.min::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.min::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.min:hover {
+  background: rgba(239, 68, 68, 0.55);
+  color: #fff;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, #6ea8ff, #3b5bdb);
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(59, 91, 219, 0.5);
+  animation: petPulse 2s ease-in-out infinite;
+}
+
+@keyframes petPop {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes petZzz {
+  0% { opacity: 0; transform: translateY(4px); }
+  30% { opacity: 0.9; }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+
+@keyframes petAlert {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+  50% { transform: translateX(-50%) translateY(-3px); opacity: 0.6; }
+}
+
+@keyframes petShadow {
+  0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.9; }
+  50% { transform: translateX(-50%) scaleX(0.88); opacity: 0.65; }
+}
+
+@keyframes petWave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-24px); }
+}
+
+@keyframes petHeart {
+  0% { transform: translate(calc(-50% + var(--hx, 0px)), 0) scale(0.4) rotate(var(--hr, -10deg)); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--hx, 0px) + var(--hdx, 0px)), var(--hy, -52px)) scale(var(--hs, 1.2)) rotate(calc(var(--hr, -10deg) + var(--hdr, 20deg))); opacity: 0; }
+}
+
+@keyframes petPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}

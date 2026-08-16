@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": [
+      "ES2024",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "types": [],
+    "rootDir": "..",
+    "outDir": "../../lib/types",
+    "composite": true,
+    "incremental": true
+  },
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "../*.ts"
+  ],
+  "files": [
+    "../client.ts",
+    "../types.ts",
+    "../../css-modules.d.ts"
+  ]
+}

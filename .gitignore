@@ -1,0 +1,4 @@
+node_modules/
+*.tsbuildinfo
+.typert-work/
+.vitest-cache/
