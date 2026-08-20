@@ -27,16 +27,15 @@ pnpm pack
 dsh plugin --profile web add ./dsh-desktop-pet-0.1.0.tgz
 ```
 
-安装后重启 `dsh`(组合层在启动时合成)。鲸鱼出现在网页右下角。
+安装后重启 `dsh`(组合层在启动时合成)。鲸鱼出现在网页左下角(默认锚定左侧:右侧浮层面板——如 dsh-better-sidebar 的 Explorer,`z-index:50` 高于 `shell.overlay` 层的 `z-index:20`——会盖住右锚定的鲸鱼并吞掉它的点击;左锚定可避开该冲突,且鲸鱼完全可拖拽)。
 
 ### 配置
 
-bundle 通过 `cordis.patch.yml` 挂载两行:
+bundle 通过 `cordis.patch.yml` 挂载一行(host;浏览器半由包的 `dsh.client` 声明自动发现——为同一包写第二个 entry 会让 host 端执行两次,导致 `petStatus` 服务重复注册冲突):
 
 | id | 包 | 配置 |
 |---|---|---|
 | `pet-status` | `dsh-desktop-pet` | `balanceScale: 100`(海面满时的 CNY 金额;海平面 = `balance / balanceScale`,上限 1) |
-| `ui-pet` | `dsh-desktop-pet` | — |
 
 宿主行通过 Harness 标准凭证(`DEEPSEEK_API_KEY`)读取密钥,每 15 秒最多刷新一次 `https://api.deepseek.com/user/balance`。可在自己的 profile `cordis.patch.yml` 里覆盖:
 
