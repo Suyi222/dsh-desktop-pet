@@ -27,16 +27,15 @@ pnpm pack
 dsh plugin --profile web add ./dsh-desktop-pet-0.1.0.tgz
 ```
 
-Restart `dsh` after installing (bundle layers compose at startup). The whale appears in the bottom-right corner of the web UI.
+Restart `dsh` after installing (bundle layers compose at startup). The whale appears in the bottom-left corner of the web UI (left-anchored so that right-side floating panels — e.g. the dsh-better-sidebar Explorer, which sits at `z-index: 50` above the `shell.overlay` layer's `z-index: 20` — never cover it or eat its clicks). It is fully draggable.
 
 ### Configuration
 
-The bundle applies the `cordis.patch.yml` layer, which mounts two rows:
+The bundle applies the `cordis.patch.yml` layer, which mounts one host row (the browser half is auto-discovered from the package's `dsh.client` declaration — a second entry for the same package would run the host half twice and collide on the `petStatus` service):
 
 | id | package | config |
 |---|---|---|
 | `pet-status` | `dsh-desktop-pet` | `balanceScale: 100` (the CNY amount at which the sea reads full; the sea level is `balance / balanceScale`, capped at 1) |
-| `ui-pet` | `dsh-desktop-pet` | — |
 
 The host row reads your DeepSeek API key through the harness's normal credentials (`DEEPSEEK_API_KEY`) and refetches `https://api.deepseek.com/user/balance` at most every 15 seconds. Override any key in your own profile's `cordis.patch.yml`:
 
