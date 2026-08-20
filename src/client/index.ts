@@ -52,7 +52,15 @@ export async function apply(ctx: ClientContext): Promise<void> {
 
   await ctx.remote.$mount(petStatusRemote)
 
-  const controller = new PetController(ctx.remote.petStatus)
+  // The petStatus namespace is mounted by this plugin itself (ctx.remote.$mount
+  // above), so its service lives on the api-gateway subtree, not on this
+  // fiber's parent chain. Property access (ctx.remote.petStatus) resolves
+  // through the fiber chain and throws `cannot get property "remote.petStatus"
+  // without inject`; the fix is to read it from the global store via
+  // ctx.get("remote.petStatus") after $mount has published it. Injecting
+  // "remote.petStatus" in `inject` would deadlock (apply would wait for a
+  // service it creates itself).
+  const controller = new PetController(ctx.get('remote.petStatus'))
   ctx.effect(() => {
     const timer = setInterval(() => {
       const sessionId = ctx.sessions.list.getSnapshot().current

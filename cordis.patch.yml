@@ -1,15 +1,18 @@
 # Desktop-pet bundle layer: one host service (agent status + balance Remote)
 # and one shell-overlay widget. Merge this patch into the target profile, or
 # install the package with `dsh plugin add` which applies this layer for you.
+#
+# IMPORTANT: only ONE entry per package is allowed here. The dsh loader runs
+# the host half (index.js) for every entry that references this package, and
+# the browser half is auto-discovered by client-modules from the package's
+# `dsh.client` declaration. A second entry (e.g. a "ui-pet" browser entry)
+# would run the host half twice and collide on the "petStatus" service:
+# `service "petStatus" has been registered` → the whole plugin tree fails to
+# load → the dsh backend refuses to start.
 - insert:
-    # Host: the petStatus Remote service (agent status fold + balance read).
     - id: pet-status
       name: 'dsh-desktop-pet'
       config:
         # The balance amount (CNY) at which the sea reads full; the sea level
         # is balance / balanceScale, capped at 1.
         balanceScale: 100
-
-    # Browser half: the whale widget in the shell overlay.
-    - id: ui-pet
-      name: 'dsh-desktop-pet'
