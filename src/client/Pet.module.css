@@ -3,7 +3,13 @@
 
 .root {
   position: fixed;
-  right: 20px;
+  /* Anchor to the LEFT by default: right-side floating panels (e.g. the
+   * dsh-better-sidebar Explorer, z-index 50) sit above the shell.overlay
+   * layer (z-index 20), so a right-anchored pet would be painted under such
+   * a panel — visible through its translucent background but unable to
+   * receive any pointer events. A left anchor avoids that collision while
+   * keeping the pet fully draggable (dragging writes left/top anyway). */
+  left: 20px;
   bottom: 20px;
   z-index: 2147483000;
   pointer-events: auto;
